@@ -1,0 +1,35 @@
+table {
+  width: 100%;
+}
+
+.search {
+  width: 100%;
+  padding: 0px 10px 10px 10px;
+}
+
+.tab {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tab td,
+.tab th {
+  padding: 8px;
+}
+
+.tab tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tab tr:hover {
+  background-color: #ddd;
+}
+
+.tab th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #00917c;
+  color: white;
+  font-weight: normal;
+}

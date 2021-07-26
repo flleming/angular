@@ -1,0 +1,319 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header row justify-content-between " style="margin: inherit">
+          <div >
+            <h4 class="card-title mr-auto" > Gestion des Classes </h4>
+          </div>
+          <div>
+            <button mat-icon-button data-toggle="modal" data-target="#add"
+                    type="button" class="btn btn-danger btn-link btn btn-just-icon">
+              <i class="material-icons icon-blue">
+                add_circle_outline
+              </i>
+            </button>
+          </div>
+
+        </div>
+        <div class="card-body">
+
+          <mat-form-field  class="example-form-field search" >
+            <input matInput (keyup)="applyFilter($event.target.value)" type="text" placeholder="Recherche" [(ngModel)]="value">
+            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <div  *ngIf="!resolve()" class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+              <ng-container matColumnDef="libelle">
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header> Libelle </th>
+                <td  mat-cell *matCellDef="let element"> {{element.libelle}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="niveau">
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header >Niveau</th>
+                <td  mat-cell *matCellDef="let element"> {{element.niveau}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="groupe">
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header >Groupe</th>
+                <td  mat-cell *matCellDef="let element">{{element.groupe}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="nom">
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header ></th>
+                <td  mat-cell *matCellDef="let element">{{element.libelle + element.niveau + element.groupe}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="responsable">
+                <th  mat-header-cell *matHeaderCellDef mat-sort-header >Responsable</th>
+                <td  mat-cell *matCellDef="let element">{{ element.responsable ? element.responsable.nom + " " +element.responsable.prenom : ""}} </td>
+              </ng-container>
+
+
+
+              <ng-container matColumnDef="actions" >
+                <th class="text-center title" mat-header-cell *matHeaderCellDef > Action </th>
+                <td class="text-center" mat-cell *matCellDef="let element">
+
+                  <button mat-icon-button
+                          data-toggle="modal" data-target="#modules"
+                          type="button"
+                          class="btn btn-danger btn-link btn btn-just-icon"
+                          (click)="selectModules(element.id_classe)">
+                    <i class="material-icons icon-blue">
+                      list
+                    </i>
+                  </button>
+
+                  <button mat-icon-button
+                          data-toggle="modal" data-target="#etudiants"
+                          type="button"
+                          class="btn btn-secondary btn-link btn btn-just-icon"
+                          (click)="selectEtudiants(element.id_classe)">
+                    <i class="material-icons icon-blue">
+                      supervisor_account
+                    </i>
+                  </button>
+
+                  <button mat-icon-button
+                          data-toggle="modal" data-target="#edit"
+                          type="button"
+                          class="btn btn-danger btn-link btn btn-just-icon"
+                          (click)="update_form(element.id_classe)">
+                    <i class="material-icons icon-blue" style="color: #00917c;">
+                      edit
+                    </i>
+                  </button>
+
+                  <button mat-icon-button
+                          data-toggle="modal" data-target="#delete"
+                          type="button"
+                          class="btn btn-primary btn-link btn-sm btn-just-icon"
+                          (click)="select(element.id_classe)">
+                    <i class="material-icons" style="color: #433520;">
+                      close
+                    </i>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+      <div class="modal-content ">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Ajouter un Module</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+
+          <form [formGroup]="addForm" >
+
+            <div class="row">
+
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Libelle</label>
+                  <input formControlName="libelle" type="text" class="form-control" placeholder="Libelle" >
+                </div>
+              </div>
+
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label>Niveau</label>
+                  <input formControlName="niveau" type="text" class="form-control" placeholder="Niveau" >
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Groupe</label>
+                  <input formControlName="groupe" type="text" class="form-control" placeholder="groupe" >
+                </div>
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" mat-raised-button data-dismiss="modal" (click)="initializeForm(addForm)">Cancel</button>
+          <button class="ml-2" mat-raised-button color="primary" data-dismiss="modal" (click)="add()" [disabled]="!addForm.valid">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg" role="document">
+      <div class="modal-content ">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Modifier les données</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+
+        <div class="modal-body">
+
+          <form [formGroup]="updateForm" >
+
+            <div class="row">
+
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Libelle</label>
+                  <input formControlName="libelle" type="text" class="form-control" placeholder="Libelle" >
+                </div>
+              </div>
+
+              <div class="col-md-6 pl-1">
+                <div class="form-group">
+                  <label>Niveau</label>
+                  <input formControlName="niveau" type="text" class="form-control" placeholder="Coefficient" >
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-md-6 pr-1">
+                <div class="form-group">
+                  <label>Groupe</label>
+                  <input formControlName="groupe" type="text" class="form-control" placeholder="groupe" >
+                </div>
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" mat-raised-button data-dismiss="modal">Cancel</button>
+          <button class="ml-2" type="button" mat-raised-button color="primary" data-dismiss="modal" (click)="update()" [disabled]="!updateForm.valid">Appliquer les modifications</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <h5>voulez-vous supprimer définitivement ce module ?</h5>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" mat-raised-button data-dismiss="modal">Cancel</button>
+          <button class="ml-2" type="button" mat-raised-button color="primary" (click)="delete()" data-dismiss="modal">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="modules" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"  role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Liste des modules</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <table class="tab">
+            <tr>
+              <th>Module</th>
+              <th>Coefficient</th>
+            </tr>
+            <tr *ngFor="let md of selectedmodules">
+              <td>{{md.nom}}</td>
+              <td>{{md.coefficient}}</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="etudiants" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title">Liste des etudiants</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <table class="tab">
+              <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>CIN</th>
+              </tr>
+              <tr *ngFor="let et of selectedetudiants">
+                <td>{{et.nom}}</td>
+                <td>{{et.prenom}}</td>
+                <td>{{et.cin}}</td>
+              </tr >
+          </table>
+          <h5 ></h5>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div>
+
+

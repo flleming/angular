@@ -1,0 +1,47 @@
+.tab {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tab td,
+.tab th {
+  padding: 8px;
+}
+
+.tab tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.tab tr:hover {
+  background-color: #ddd;
+}
+
+.tab th {
+  width: 100px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #00917c;
+  color: white;
+  font-weight: normal;
+}
+
+.tab td {
+  border: 1px solid #a0a0a0;
+  width: 100px;
+  color: #4e555b;
+  font-size: 10px;
+  height: 70px;
+  text-align: center;
+  word-wrap: break-word;
+}
+table {
+  width: 100%;
+}
+p {
+  margin: 0px;
+}
+
+.ens {
+  background-color: rgba(224, 59, 0, 0.48);
+}

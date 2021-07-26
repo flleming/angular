@@ -1,0 +1,8 @@
+.ng-star-inserted a,
+.ng-star-inserted a i {
+  color: #433520;
+}
+.ng-star-inserted.active a {
+  background: #433520 !important;
+  color: white;
+}

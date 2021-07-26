@@ -1,0 +1,25 @@
+<div style="background-color:#00917c;height: 100vh;" >
+<div style="display: flex;justify-content: center;align-content: center;padding-top: 15%;" >
+<div style=" background-color:  ;">
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <div>
+  <form (submit)="onLogin(loginForm)" #loginForm="ngForm" *ngIf="!isLoading">
+    <div class="logo" style="text-align: center;">
+      <img src="../../../assets/img/FSTLOGO.png" width="270px"/>
+    </div>
+    <mat-form-field>
+      <input matInput name="email" ngModel type="email" placeholder="E-Mail" #emailInput="ngModel" required email>
+      <mat-error *ngIf="emailInput.invalid">Please enter a valid email.</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password" name="password" ngModel matInput placeholder="Password" #passwordInput="ngModel" required>
+      <mat-error *ngIf="passwordInput.invalid">Please enter a valid password.</mat-error>
+    </mat-form-field>
+    <div style="display: flex;justify-content: center;align-content: center;" >
+    <button mat-raised-button color="accent" type="submit" *ngIf="!isLoading" style="background-color: #fde8cd;" >se connecter</button>
+  </div>
+  </form>
+</div>
+</div>
+</div>
+</div>

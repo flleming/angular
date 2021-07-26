@@ -1,0 +1,20 @@
+{
+  "/stat": {
+    "target": "http://localhost:8081/ws",
+    "changeOrigin": false,
+    "secure": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/stat": ""
+    }
+  },
+  "/auth-api": {
+    "target": "http://localhost:8080",
+    "changeOrigin": false,
+    "secure": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/auth-api": "user"
+    }
+  }
+}
